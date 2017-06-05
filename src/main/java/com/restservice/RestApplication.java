@@ -46,6 +46,13 @@ public class RestApplication implements CommandLineRunner {
 		myService.addPhone(p3, new Phone(ePhoneCategory.home,9957664));
 		myService.createPerson(p3, new Address(23,"Luna Monoto"));
 		
+		Person p4 = new Person("Kenzi", "Yak");
+		//myService.addPhone(p3, new Phone(ePhoneCategory.home,9957664));
+		myService.createPerson(p4, new Address(999,"XXX"));
+		
+		
+		
+		
 		System.out.println("Total people: " + myService.total());
 		//System.out.println(myService.getAllPeople());
 	}

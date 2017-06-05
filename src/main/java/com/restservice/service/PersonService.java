@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,14 +22,21 @@ import com.restservice.repository.PhoneRepository;
 
 
 //@Service
+@CrossOrigin //makes all services available to ouside applications
 @RestController
 @RequestMapping(value="/api")
 public class PersonService {
 
+	@Autowired
 	private PersonRepository personRepo;
+	
+	@Autowired
 	private AddressRepository addressRepo;
+	
+	@Autowired
 	private PhoneRepository phoneRepo;
 
+	/*
 	@Autowired
 	public PersonService(PersonRepository personRepo,
 						 AddressRepository addressRepo,
@@ -37,16 +45,17 @@ public class PersonService {
 		this.addressRepo = addressRepo;
 		this.phoneRepo = phoneRepo;
 	}
+	*/
+	public PersonService(){};
 	
-	@CrossOrigin
+	@CrossOrigin //enables other apps to make an api call
 	@ResponseStatus(code=HttpStatus.OK)
 	@RequestMapping(value="/healthCheck")
 	public void ping(){
 		
 	}
 	
-	@CrossOrigin //enables other apps to make an api call
-	@RequestMapping(value="/getAllPeople")
+	@RequestMapping(value="/getAllPeople", method=RequestMethod.GET)
 	public Iterable<Person> getAllPeople(){
 		return personRepo.findAll();
 	}
@@ -54,6 +63,28 @@ public class PersonService {
 	@RequestMapping(value="/getPersonByName")
 	public Iterable<Person> getPersonByName(@RequestHeader(value="name") String name){
 		return personRepo.findByNameLike(name);
+	}
+	
+	@ResponseStatus(code=HttpStatus.OK)
+	@RequestMapping(value="/updatePerson", method=RequestMethod.POST)
+	public void updatePerson(@RequestHeader(value="id") String id,
+								@RequestHeader(value="name", required=false) String name,
+								@RequestHeader(value="familyName", required=false) String familyName
+								){
+		
+		Person p = personRepo.findById(id);
+		System.out.println("UPDATING: " + p);
+		if(p != null)
+		{
+			if(name != null && name.length() >= 1)
+				p.setName(name);
+			
+			if(familyName != null && familyName.length() >= 1)
+				p.setFamilyName(familyName);
+			
+			personRepo.save(p);
+		}
+		
 	}
 	
 	@RequestMapping(value="/getPersonByFamilyName")
@@ -64,6 +95,13 @@ public class PersonService {
 	@RequestMapping(value="/findByAddress")
 	public Iterable<Person> findByAddress(@RequestHeader(value="streetName") String streetName){
 		return personRepo.findByAddress(addressRepo.findByStreetNameIgnoreCaseLike(streetName));
+	}
+	
+	@RequestMapping(value="/deleteByID", method=RequestMethod.DELETE)
+	public HttpStatus deletePerson(@RequestHeader(value="id") String id){
+		personRepo.delete(id);
+		
+		return HttpStatus.OK;
 	}
 	
 	public void deleteAll()

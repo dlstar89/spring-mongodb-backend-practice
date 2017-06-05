@@ -10,6 +10,8 @@ import com.restservice.entity.Person;
 
 @Repository
 public interface PersonRepository extends MongoRepository<Person, String>{
+	Person findById(String id);
+	
 	List<Person> findByNameLike(String name);
 	List<Person> findByFamilyName(String familyName);
 	//Person findPersonByName(String name);
