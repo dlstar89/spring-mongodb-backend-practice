@@ -1,17 +1,14 @@
 package com.restservice.service;
 
+import static org.mockito.Matchers.anyString;
+
 import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 import com.restservice.entity.Address;
 import com.restservice.entity.Person;
@@ -20,9 +17,11 @@ import com.restservice.repository.AddressRepository;
 import com.restservice.repository.PersonRepository;
 import com.restservice.repository.PhoneRepository;
 
+import io.swagger.annotations.*;
+
 
 //@Service
-@CrossOrigin //makes all services available to ouside applications
+//@CrossOrigin //makes all services available to ouside applications
 @RestController
 @RequestMapping(value="/api")
 public class PersonService {
@@ -50,19 +49,26 @@ public class PersonService {
 	
 	@CrossOrigin //enables other apps to make an api call
 	@ResponseStatus(code=HttpStatus.OK)
-	@RequestMapping(value="/healthCheck")
+	@RequestMapping(value="/healthCheck", method=RequestMethod.GET)
+	@ApiOperation(value="Check health status")
 	public void ping(){
 		
 	}
 	
 	@RequestMapping(value="/getAllPeople", method=RequestMethod.GET)
-	public Iterable<Person> getAllPeople(){
+	public List<Person> getAllPeople(){
 		return personRepo.findAll();
 	}
 	
-	@RequestMapping(value="/getPersonByName")
-	public Iterable<Person> getPersonByName(@RequestHeader(value="name") String name){
-		return personRepo.findByNameLike(name);
+	@ApiOperation(value = "Get Person By NAME")
+	@RequestMapping(value="/getPersonByName", 
+					method=RequestMethod.GET, 
+					produces=MediaType.APPLICATION_JSON_VALUE)
+	public Person getPersonByName(@RequestHeader@ApiParam(value="name to be retrieved",
+									required=true,
+									defaultValue="Alex")									
+									String name){
+		return personRepo.findPersonByNameLike(name);
 	}
 	
 	@ResponseStatus(code=HttpStatus.OK)
@@ -87,13 +93,13 @@ public class PersonService {
 		
 	}
 	
-	@RequestMapping(value="/getPersonByFamilyName")
-	public Iterable<Person> getPersonByFamilyName(@RequestHeader(value="familyName", defaultValue="default") String familyName){
+	@RequestMapping(value="/getPersonByFamilyName", method=RequestMethod.GET)
+	public List<Person> getPersonByFamilyName(@RequestHeader(value="familyName", defaultValue="default") String familyName){
 		return personRepo.findByFamilyName(familyName);
 	}
 	
-	@RequestMapping(value="/findByAddress")
-	public Iterable<Person> findByAddress(@RequestHeader(value="streetName") String streetName){
+	@RequestMapping(value="/findByAddress", method=RequestMethod.GET)
+	public List<Person> findByAddress(@RequestHeader(value="streetName") String streetName){
 		return personRepo.findByAddress(addressRepo.findByStreetNameIgnoreCaseLike(streetName));
 	}
 	
@@ -129,12 +135,6 @@ public class PersonService {
 		
 		return phoneRepo.insert(phone);
 	}
-
-	/*
-	public Iterable<Person> lookup() {
-		return myRepo.findAll();
-	}
-	*/
 
 	public long total() {
 		return personRepo.count();

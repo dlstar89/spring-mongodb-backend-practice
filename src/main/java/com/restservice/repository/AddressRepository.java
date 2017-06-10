@@ -7,5 +7,5 @@ import com.restservice.entity.Address;
 
 @Repository
 public interface AddressRepository extends MongoRepository<Address, String>{
-	Address findByStreetNameIgnoreCaseLike(String streetName);
+	Address findByStreetNameIgnoreCaseLike(String streetName);	
 }

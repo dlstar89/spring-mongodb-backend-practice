@@ -7,6 +7,8 @@ import javax.persistence.*;
 
 import org.springframework.data.mongodb.core.mapping.*;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModel;
 
 @Document(collection = "person")
 public class Person {
@@ -24,6 +26,7 @@ public class Person {
 	@DBRef
 	private Set<Phone> phones = new HashSet<Phone>();
 
+	@SuppressWarnings("unused")
 	private Person() {}
 
 	public Person(String name, String familyName) {

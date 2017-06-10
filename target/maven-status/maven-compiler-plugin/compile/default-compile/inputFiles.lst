@@ -1,4 +1,10 @@
-/Users/dstarcenko/Documents/JAVA SPRING WORKSPACE/Rest Service/src/main/java/com/restservice/RestApplication.java
-/Users/dstarcenko/Documents/JAVA SPRING WORKSPACE/Rest Service/src/main/java/com/restservice/service/MyService.java
-/Users/dstarcenko/Documents/JAVA SPRING WORKSPACE/Rest Service/src/main/java/com/restservice/domain/Person.java
-/Users/dstarcenko/Documents/JAVA SPRING WORKSPACE/Rest Service/src/main/java/com/restservice/repo/MyRepo.java
+/Users/dstarcenko/Documents/JAVA SPRING WORKSPACE/Rest Service MongoDB/src/main/java/com/restservice/SwaggerConfig.java
+/Users/dstarcenko/Documents/JAVA SPRING WORKSPACE/Rest Service MongoDB/src/main/java/com/restservice/entity/Person.java
+/Users/dstarcenko/Documents/JAVA SPRING WORKSPACE/Rest Service MongoDB/src/main/java/com/restservice/service/PersonService.java
+/Users/dstarcenko/Documents/JAVA SPRING WORKSPACE/Rest Service MongoDB/src/main/java/com/restservice/WebConfig.java
+/Users/dstarcenko/Documents/JAVA SPRING WORKSPACE/Rest Service MongoDB/src/main/java/com/restservice/repository/AddressRepository.java
+/Users/dstarcenko/Documents/JAVA SPRING WORKSPACE/Rest Service MongoDB/src/main/java/com/restservice/RestApplication.java
+/Users/dstarcenko/Documents/JAVA SPRING WORKSPACE/Rest Service MongoDB/src/main/java/com/restservice/repository/PhoneRepository.java
+/Users/dstarcenko/Documents/JAVA SPRING WORKSPACE/Rest Service MongoDB/src/main/java/com/restservice/entity/Phone.java
+/Users/dstarcenko/Documents/JAVA SPRING WORKSPACE/Rest Service MongoDB/src/main/java/com/restservice/entity/Address.java
+/Users/dstarcenko/Documents/JAVA SPRING WORKSPACE/Rest Service MongoDB/src/main/java/com/restservice/repository/PersonRepository.java
