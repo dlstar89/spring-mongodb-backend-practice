@@ -1,9 +1,6 @@
 package com.restservice.service;
 
-import static org.mockito.Matchers.anyString;
-
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,19 +18,14 @@ import io.swagger.annotations.*;
 
 
 //@Service
-//@CrossOrigin //makes all services available to ouside applications
+@CrossOrigin //makes all services available to ouside applications
 @RestController
 @RequestMapping(value="/api")
 public class PersonService {
 
-	@Autowired
-	private PersonRepository personRepo;
-	
-	@Autowired
-	private AddressRepository addressRepo;
-	
-	@Autowired
-	private PhoneRepository phoneRepo;
+	@Autowired private PersonRepository personRepo;	
+	@Autowired private AddressRepository addressRepo;	
+	@Autowired private PhoneRepository phoneRepo;
 
 	/*
 	@Autowired
@@ -51,12 +43,13 @@ public class PersonService {
 	@ResponseStatus(code=HttpStatus.OK)
 	@RequestMapping(value="/healthCheck", method=RequestMethod.GET)
 	@ApiOperation(value="Check health status")
-	public void ping(){
-		
+	public void ping() throws InterruptedException{
+		Thread.sleep(1000);//Simulate delay of 1 seconds
 	}
 	
 	@RequestMapping(value="/getAllPeople", method=RequestMethod.GET)
-	public List<Person> getAllPeople(){
+	public List<Person> getAllPeople() throws InterruptedException{
+		Thread.sleep(1000);//Simulate delay of 1 seconds
 		return personRepo.findAll();
 	}
 	
@@ -104,8 +97,10 @@ public class PersonService {
 	}
 	
 	@RequestMapping(value="/deleteByID", method=RequestMethod.DELETE)
-	public HttpStatus deletePerson(@RequestHeader(value="id") String id){
+	public HttpStatus deletePerson(@RequestHeader(value="id") String id) throws InterruptedException{
 		personRepo.delete(id);
+		
+		Thread.sleep(1000);//Simulate delay of 1 seconds
 		
 		return HttpStatus.OK;
 	}
