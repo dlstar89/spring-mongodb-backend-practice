@@ -5,7 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.restservice.entity.Address;
 import com.restservice.entity.Person;
@@ -14,20 +19,21 @@ import com.restservice.repository.AddressRepository;
 import com.restservice.repository.PersonRepository;
 import com.restservice.repository.PhoneRepository;
 
-import io.swagger.annotations.*;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 
 //@Service
-@CrossOrigin //makes all services available to ouside applications
 @RestController
 @RequestMapping(value="/api")
+@CrossOrigin //makes all services available to ouside applications
 public class PersonService {
 
-	@Autowired private PersonRepository personRepo;	
-	@Autowired private AddressRepository addressRepo;	
-	@Autowired private PhoneRepository phoneRepo;
+	private PersonRepository personRepo;	
+	private AddressRepository addressRepo;	
+	private PhoneRepository phoneRepo;
 
-	/*
+	
 	@Autowired
 	public PersonService(PersonRepository personRepo,
 						 AddressRepository addressRepo,
@@ -36,8 +42,8 @@ public class PersonService {
 		this.addressRepo = addressRepo;
 		this.phoneRepo = phoneRepo;
 	}
-	*/
-	public PersonService(){};
+	
+//	private PersonService(){};
 	
 	@CrossOrigin //enables other apps to make an api call
 	@ResponseStatus(code=HttpStatus.OK)

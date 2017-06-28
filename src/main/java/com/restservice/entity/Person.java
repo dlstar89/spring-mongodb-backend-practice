@@ -3,12 +3,10 @@ package com.restservice.entity;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.Id;
 
-import org.springframework.data.mongodb.core.mapping.*;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModel;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "person")
 public class Person {

@@ -1,11 +1,8 @@
 package com.restservice.entity;
 
-import javax.persistence.*;
+import javax.persistence.Id;
 
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Document(collection = "address")
 public class Address {

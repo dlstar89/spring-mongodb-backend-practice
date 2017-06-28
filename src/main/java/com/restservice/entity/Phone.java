@@ -19,6 +19,7 @@ public class Phone {
 	
 	private Integer number;
 
+	@SuppressWarnings("unused")
 	private Phone(){};
 	
 	public Phone(ePhoneCategory category, Integer number)
