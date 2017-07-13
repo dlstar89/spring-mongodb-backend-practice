@@ -16,9 +16,10 @@ public class SwaggerConfig {
     
 	@Bean
     public Docket api() { 
-        return new Docket(DocumentationType.SWAGGER_2)  
+        return new Docket(DocumentationType.SWAGGER_2)
+          .groupName("Rest API")
           .select()                                  
-          .apis(RequestHandlerSelectors.any())              
+          .apis(RequestHandlerSelectors.basePackage("com.restservice.service"))              
           .paths(PathSelectors.any())                          
           .build();                                           
     }

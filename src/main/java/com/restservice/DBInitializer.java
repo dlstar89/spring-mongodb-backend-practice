@@ -10,13 +10,18 @@ import com.restservice.entity.Address;
 import com.restservice.entity.Person;
 import com.restservice.entity.Phone;
 import com.restservice.entity.Phone.ePhoneCategory;
-import com.restservice.service.PersonService;
+import com.restservice.rest.PersonService;
+import com.restservice.security.SecUserDetailsService;
+import com.restservice.security.User;
 
 @Component
 public class DBInitializer implements CommandLineRunner {
 
 	@Autowired
 	private PersonService myService;
+	
+	@Autowired
+	private SecUserDetailsService secService;
 	
 	@Override
 	public void run(String... args) throws Exception {
@@ -44,12 +49,16 @@ public class DBInitializer implements CommandLineRunner {
 		
 		Person p5 = new Person("Qazs", "Aswer");
 		myService.createPerson(p5, new Address(12,"Qwerty"));
-		
-		
-		
-		
+				
 		System.out.println("Total people: " + myService.total());
 		//System.out.println(myService.getAllPeople());
+		
+		
+		
+		/*CREATE USERS FOR AUTHORIZATION*/
+		secService.deleteAll();
+		secService.CreateUser(new User("admin","admin",new String[]{"ADMIN","USER"}));
+		secService.CreateUser(new User("user","user",new String[]{"USER"}));
 		
 	}
 }
