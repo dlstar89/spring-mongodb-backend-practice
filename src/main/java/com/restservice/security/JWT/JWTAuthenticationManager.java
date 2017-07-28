@@ -34,8 +34,7 @@ public class JWTAuthenticationManager implements AuthenticationManager{
         if (!password.equals(user.getPassword())) {
             throw new BadCredentialsException("Wrong password.");
         }
-        		
-//		return null;
+        
         return new UsernamePasswordAuthenticationToken(user, password, user.getAuthorities());
 	}
 

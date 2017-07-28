@@ -1,4 +1,4 @@
-package com.restservice.security;
+package com.restservice.security.JWT;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,7 +12,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationEn
 import org.springframework.stereotype.Component;
 
 @Component
-public class AuthenticationEntryPoint extends BasicAuthenticationEntryPoint {
+public class JWTAuthenticationEntryPoint extends BasicAuthenticationEntryPoint {
 
 	@Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authEx)

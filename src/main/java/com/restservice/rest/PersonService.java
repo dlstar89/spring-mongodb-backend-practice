@@ -27,7 +27,7 @@ import io.swagger.annotations.ApiParam;
 //@Service
 @RestController
 @RequestMapping(value="/api")
-@CrossOrigin //makes all services available to ouside applications
+//@CrossOrigin //makes all services available to outside applications
 public class PersonService {
 
 	private PersonRepository personRepo;	
@@ -46,12 +46,14 @@ public class PersonService {
 	
 //	private PersonService(){};
 	
-	@CrossOrigin //enables other apps to make an api call
+//	@CrossOrigin //enables other apps to make an api call
 	@ResponseStatus(code=HttpStatus.OK)
 	@RequestMapping(value="/healthCheck", method=RequestMethod.GET)
 	@ApiOperation(value="Check health status")
-	public void ping() throws InterruptedException{
+	public String ping() throws InterruptedException{
 		Thread.sleep(1000);//Simulate delay of 1 seconds
+		
+		return "OK";
 	}
 	
 	@RequestMapping(value="/getAllPeople", method=RequestMethod.GET)

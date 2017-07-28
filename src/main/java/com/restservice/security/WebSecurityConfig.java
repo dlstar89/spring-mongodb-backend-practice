@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -16,10 +17,9 @@ import com.restservice.security.JWT.*;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-//	@Autowired SecUserDetailsService userDetailsService;
-	
+//	@Autowired SecUserDetailsService userDetailsService;	
 	@Autowired MyAuthenticationProvider myAuthenticationProvider;
-	@Autowired AuthenticationEntryPoint authenticationEntryPoint;
+	@Autowired JWTAuthenticationEntryPoint authenticationEntryPoint;
 	@Autowired JWTAuthenticationManager jwtAuthenticationManager;
 	@Autowired JWTAuthenticationFilter jwtAuthenticationFilter;
 
@@ -33,27 +33,38 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity
-		.csrf().disable()
-		
-		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-		
-		.and()
-		.authorizeRequests()
-        .antMatchers("/").permitAll()
-        .antMatchers("/api/healthCheck").permitAll()
-        .antMatchers(HttpMethod.POST, "/api/login").permitAll()
-        .antMatchers(HttpMethod.GET, "/api/logout").permitAll()
-        .antMatchers(HttpMethod.GET, "/api/whoami").permitAll()
-        .antMatchers(HttpMethod.GET, "/api/getAllPeople").hasAuthority("ADMIN")
-        .anyRequest().authenticated()
-        
-        .and()
-        // We filter the api/login requests
-        .addFilterBefore(new JWTLoginFilter("/api/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class)
-        // And filter other requests to check the presence of JWT in header
-        .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-    	
-//				.antMatchers(HttpMethod.GET, "/api/**").access("hasAuthority('ADMIN') or hasAuthority('USER')")
+			.cors()
+			
+			.and()
+				.csrf().disable()
+			
+			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+			
+			.and()
+				.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
+			
+			.and()
+			.authorizeRequests()
+	        .antMatchers("/").permitAll()
+	        .antMatchers("/api/healthCheck").permitAll()
+	        
+	        .antMatchers(HttpMethod.POST, "/api/login").permitAll()
+	        .antMatchers(HttpMethod.POST, "/api/logout").permitAll()
+	        .antMatchers(HttpMethod.GET, "/api/whoami").permitAll()
+//        	.antMatchers(HttpMethod.GET, "/api/getAllPeople").hasAuthority("ADMIN")
+//	        .antMatchers(HttpMethod.GET, "/api/**").access("hasAuthority('ADMIN') or hasAuthority('USER')")
+	        .anyRequest().authenticated()
+	        
+	        .and()
+		        // We filter the api/login requests
+		        .addFilterBefore(new JWTLoginFilter("/api/login", jwtAuthenticationManager), UsernamePasswordAuthenticationFilter.class)
+		        // And filter other requests to check the presence of JWT in header
+		        .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 		;
 	}
+	
+	@Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security", "/swagger-ui.html", "/webjars/**","/swagger-resources/configuration/ui","/swagge‌​r-ui.html");
+    }
 }

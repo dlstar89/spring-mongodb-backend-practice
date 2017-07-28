@@ -22,24 +22,14 @@ import java.io.IOException;
 @Component
 public class JWTAuthenticationFilter extends GenericFilterBean {
 
-	@Autowired
-//	@Qualifier("myUserRepo")
-	private UserRepository userRepo;
-	
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
 			throws IOException, ServletException {
-
-//		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
 		
-		System.out.println("MyUserRepo: " + userRepo);
-		
-		User user = userRepo.findById(TokenAuthenticationService.getAuthentication((HttpServletRequest) request));
-		
-		Authentication authentication = new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
+		Authentication authentication = TokenAuthenticationService.getAuthentication((HttpServletRequest) request);
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-
+		
 		filterChain.doFilter(request, response);
 	}
 }
